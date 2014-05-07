@@ -2,7 +2,9 @@
 
 filename="logmein.py"
 install_location="/usr/bin/logmein"
+credential_file=~/.login.txt
 
+#Uninstall option
 if test "$1" == "--uninstall"
 then
     echo "About to uninstall LogMeIn"
@@ -15,5 +17,20 @@ then
     fi
 fi
 
+#Copy file
 sudo cp -f  $filename $install_location
+
+#Setup Credential
+echo -n "Do you want to setup you wifi credential file <y/n>? "
+read sure
+if test $sure == 'y'
+then
+    echo -n 'Enter your wifi username: '
+    read username
+    echo -n 'Enter your wifi password: '
+    read password
+
+    echo -e "$username\n$password" > $credential_file
+    echo "Saved to $credential_file"
+fi
 
