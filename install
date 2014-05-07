@@ -1,0 +1,19 @@
+#!/bin/bash
+
+filename="logmein.py"
+install_location="/usr/bin/logmein"
+
+if test "$1" == "--uninstall"
+then
+    echo "About to uninstall LogMeIn"
+    echo "Are you sure ? <Y/n>"
+    read sure
+    if test sure == 'Y'
+    then
+        sudo rm -f "$install_location"
+        exit 0
+    fi
+fi
+
+sudo cp -f  $filename $install_location
+
