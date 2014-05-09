@@ -52,6 +52,18 @@ def login_pucampus(username,password):
     if re.search('Only one user login session is allowed',the_page):
         print('Only one user login session is allowed');
 
+def logout_pucampus():
+    url = 'http://172.16.4.204/cgi-bin/login?cmd=logout'
+    print('Sending logout request');
+    req = urllib2.Request(url)
+    response = urllib2.urlopen(req)
+    the_page = response.read().decode('utf-8');
+
+    if re.search('Logout',the_page):
+        print ('Logout successful');
+    elif re.search('User not logged in',the_page):
+        print('You\'re not logged in');
+
 
 def parse_file_for_credential(filename):
     try:
@@ -101,12 +113,19 @@ def main(argv):
     usage = "%prog [-f credential_file]";
     parser = OptionParser(usage=usage, version="%prog 1.0")
     parser.add_option("-f", "--file", type='str', dest="file", help="Use the specified file")
+    parser.add_option("-o", "--logout", action='store_true', dest="logout", help="LogOut")
     (options, args) = parser.parse_args()
     argc = len(args);
 
     username = ''; password = '';
-    if options.file:
+    if options.file != None:
         username, password = parse_file_for_credential(options.file);
+    elif options.logout:
+        try:
+            logout_pucampus();
+        except:
+            raise;
+        return;
     else:   #Only file option used in shopt right now, so 'else'
         if not args:
             for default_file in default_credential_files:
