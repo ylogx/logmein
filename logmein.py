@@ -19,7 +19,7 @@
 #  MA 02110-1301, USA.
 #
 
-import sys,re,urllib
+import sys,re,random,urllib;
 import os.path
 import urllib.error
 
@@ -138,7 +138,7 @@ def main(argv):
     usage = "%prog [-f credential_file]";
     parser = OptionParser(usage=usage, version="%prog 1.0")
     parser.add_option("-f", "--file", type='str', dest="file", help="Use the specified file")
-    parser.add_option("-i", "--login", action='store_true', dest="login", help="Login <Default>")
+    parser.add_option("-i", "--login", action='store_true', dest="login", help="Login <Default behaviour except that it randomizes crypt password, better if you want to hide password>")
     parser.add_option("-o", "--logout", action='store_true', dest="logout", help="Logout")
     (options, args) = parser.parse_args()
     argc = len(args);
@@ -185,10 +185,13 @@ def main(argv):
         password = password[1:-1];
 
     # Show some details to user
-    crypt_password = password[0];
-    for i in range(1,len(password)-1):
-        crypt_password += '*';
-    crypt_password += password[-1];
+    if options.login:
+        crypt_password = '*' * random.randint(1,3) * len(password);
+    else:
+        crypt_password = password[0];
+        for i in range(1,len(password)-1):
+            crypt_password += '*';
+        crypt_password += password[-1];
     print('Sending request to login with',username,'&',crypt_password);
 
     try:
