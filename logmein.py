@@ -21,6 +21,7 @@
 
 import sys,re,urllib
 import os.path
+import urllib.error
 
 if sys.version_info >= (3,):
     import urllib.request as urllib2
@@ -38,31 +39,55 @@ def login_pucampus(username,password):
     data = urlparse.urlencode(values)
     data = data.encode('utf-8');
     req = urllib2.Request(url, data)
-    response = urllib2.urlopen(req)
-    the_page = response.read().decode('utf-8');
 
+    try:
+        response = urllib2.urlopen(req)         #res.geturl(), .url=str, .status=200, .info=200, .msg=OK,
+    except urllib.error.HTTPError as e:
+        print('The server couldn\'t fulfill the request.','Error code: ', e.code)
+        print('You\'re probably logged in!');
+    except urllib.error.URLError as e:
+        print('We failed to reach a server.')
+        print('Reason: ', e.reason)
+    else:
+        # everything is fine
+        the_page = response.read().decode('utf-8');
 
-    #Parse for success or failure
-    match = re.search('Authentication failed',the_page);
-    if match:
-        print('Authentication failed. Maybe your username or password is wrong.');
-    success = re.search('External Welcome Page',the_page);
-    if success:
-       print('Authentication Success. You\'re logged in');
-    if re.search('Only one user login session is allowed',the_page):
-        print('Only one user login session is allowed');
+        #Parse for success or failure
+        match = re.search('Authentication failed',the_page);
+        if match:
+            print('Authentication failed. Maybe your username or password is wrong.');
+        success = re.search('External Welcome Page',the_page);
+        if success:
+           print('Authentication Success. You\'re logged in');
+        if re.search('Only one user login session is allowed',the_page):
+            print('Only one user login session is allowed');
 
 def logout_pucampus():
-    url = 'http://172.16.4.204/cgi-bin/login?cmd=logout'
     print('Sending logout request');
-    req = urllib2.Request(url)
-    response = urllib2.urlopen(req)
-    the_page = response.read().decode('utf-8');
 
-    if re.search('Logout',the_page):
-        print ('Logout successful');
-    elif re.search('User not logged in',the_page):
-        print('You\'re not logged in');
+#     url = 'http://172.16.4.204/cgi-bin/login'
+#     data = urlparse.urlencode({'cmd' : 'logout' })
+#     full_url = url + '?' + data;
+#     req = urllib2.Request(full_url)         #req.full_url,
+
+    try:
+#         response = urllib2.urlopen(full_url)         #res.geturl(), .url=str, .status=200, .info=200, .msg=OK,
+        response = urllib2.urlopen('http://172.16.4.201/cgi-bin/login?cmd=logout');
+    except urllib.error.HTTPError as e:
+        print('The server couldn\'t fulfill the request.','Error code: ', e.code)
+    except urllib.error.URLError as e:
+        print('We failed to reach a server.')
+        print('Reason: ', e.reason)
+    else:
+        # everything is fine
+        the_page = response.read().decode('utf-8');
+
+        if re.search('Logout',the_page):
+            print ('Logout successful');
+        elif re.search('User not logged in',the_page):
+            print('You\'re not logged in');
+        else:
+            print(the_page);
 
 
 def parse_file_for_credential(filename):
@@ -113,7 +138,8 @@ def main(argv):
     usage = "%prog [-f credential_file]";
     parser = OptionParser(usage=usage, version="%prog 1.0")
     parser.add_option("-f", "--file", type='str', dest="file", help="Use the specified file")
-    parser.add_option("-o", "--logout", action='store_true', dest="logout", help="LogOut")
+    parser.add_option("-i", "--login", action='store_true', dest="login", help="Login <Default>")
+    parser.add_option("-o", "--logout", action='store_true', dest="logout", help="Logout")
     (options, args) = parser.parse_args()
     argc = len(args);
 
@@ -178,10 +204,9 @@ if __name__ == '__main__':
         print('\nClosing garacefully :)',sys.exc_info()[1]);
     except urllib.error.HTTPError:
         print('HTTP Error:',sys.exc_info()[1]);
-        print('Usually means you\'re already logged in.');
     ### TODO: Handle other errors
     except SystemExit:
         pass;
-#     except:
-#         print('Unexpected Error:',sys.exc_info()[0],'\nDetails:',sys.exc_info()[1]);
+    except:
+        print('Unexpected Error:',sys.exc_info()[0],'\nDetails:',sys.exc_info()[1]);
 #         raise;
