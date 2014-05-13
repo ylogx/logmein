@@ -20,7 +20,7 @@
 #
 
 import sys,re,random,urllib;
-import os.path
+import os,platform,os.path
 import urllib.error
 
 if sys.version_info >= (3,):
@@ -131,7 +131,9 @@ def print_help():
 
 def main(argv):
     default_credential_files = [ os.path.join(os.path.expanduser('~'),'.login.txt'),
-                                os.path.join(os.path.expanduser('~'),'login.txt') ]
+                                os.path.join(os.path.expanduser('~'),'login.txt'),
+                                os.path.join(os.path.expanduser('.'),'.login.txt'),
+                                os.path.join(os.path.expanduser('.'),'login.txt') ]
 
     # Parse command line arguments
     from optparse import OptionParser
@@ -203,6 +205,8 @@ def main(argv):
 if __name__ == '__main__':
     try:
         main(sys.argv);
+        if os.name == 'nt' or platform.system() == 'Windows':
+            input('Press Enter or Close the window to exit !');
     except KeyboardInterrupt:
         print('\nClosing garacefully :)',sys.exc_info()[1]);
     except urllib.error.HTTPError:
