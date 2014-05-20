@@ -15,12 +15,12 @@ Installation
 * Enter your username and password. These will be stored in a hidden file `~/.login.txt`.
 
 #### **Windows** user:
-* Install python3 if you don't have one from this [official python website][python3].
+* Install python3 if you don't have one from this [official python website][python3] or click here for [32 bit version][32python34] or [64 bit version][64python34]
 * Download this folder using the [Download as zip][zip] link on right side.
-* Copy and paste the file *logmein.py* to your Desktop or some other suitable place
-* Create a file named **login.txt** or **.login.txt** (preferably in *C:\Users\yourHomeFolder* or the same folder where you copied *logmein.py*)
-* Open it in any text editor and enter two lines, first your *username* and *password* on the next lines. 
-* It is recommended that you should hide this credential file.
+* Copy and paste the file *logmein.py* to your Desktop or some other suitable place.
+* Create a file named **login.txt** or **.login.txt** (preferably in *C:\Users\yourHomeFolder* or in the same folder where you copied *logmein.py*)
+* Open this credential file (login.txt) in any text editor and enter two lines: first your *username* and then your *password* in the next line. 
+* It is recommended that you hide this credential file.
 
 Usage
 -----
@@ -47,3 +47,5 @@ You may also use `logmein USERNAME PASSWORD` to login as some other user.
 
 [zip]: https://github.com/shubhamchaudhary/logmein/archive/master.zip
 [python3]: https://www.python.org/download/
+[32python34]: https://www.python.org/ftp/python/3.4.1/python-3.4.1.msi
+[64python34]: https://www.python.org/ftp/python/3.4.1/python-3.4.1.amd64.msi
