@@ -199,7 +199,7 @@ def main(argv):
 
     # Show some details to user
     if options.login:
-        crypt_password = '*' * random.randint(1,3) * len(password);
+        crypt_password = '*' * random.randint(len(password),3*len(password));
     else:
         crypt_password = password[0];
         for i in range(1,len(password)-1):
