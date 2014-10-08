@@ -43,13 +43,13 @@ def login_pucampus(username, password):
     # Send request
     try:
         response = urllib2.urlopen(req)         #res.geturl(), .url=str, .status=200, .info=200, .msg=OK,
-    except urlerror.HTTPError as e:
+    except urlerror.HTTPError as exep:
         print('The server couldn\'t fulfill the request.',
-              'Error code: ', e.code)
+              'Error code: ', exep.code)
         print('You\'re probably logged in!')
-    except urlerror.URLError as e:
+    except urlerror.URLError as exep:
         print('We failed to reach a server.')
-        print('Reason: ', e.reason)
+        print('Reason: ', exep.reason)
     else:
         # everything is fine
         the_page = response.read().decode('utf-8')
@@ -75,12 +75,12 @@ def logout_pucampus():
 #         response = urllib2.urlopen(full_url)         #res.geturl(), .url=str, .status=200, .info=200, .msg=OK,
         response = urllib2.urlopen(
             'http://172.16.4.201/cgi-bin/login?cmd=logout')
-    except urlib.error.HTTPError as e:
+    except urlerror.HTTPError as exep:
         print('The server couldn\'t fulfill the request.',
-              'Error code: ', e.code)
-    except urllib.error.URLError as e:
+              'Error code: ', exep.code)
+    except urlerror.URLError as exep:
         print('We failed to reach a server.')
-        print('Reason: ', e.reason)
+        print('Reason: ', exep.reason)
     else:
         # everything is fine
         the_page = response.read().decode('utf-8')
