@@ -135,50 +135,55 @@ def print_help():
 
 def main(argv):
     default_credential_files = [
-        os.path.join(os.path.expanduser('~'),'.login.txt'),
+        os.path.join(os.path.expanduser('~'), '.login.txt'),
         os.path.join(os.path.expanduser('~'), 'login.txt'),
         os.path.join(os.path.expanduser('.'), '.login.txt'),
         os.path.join(os.path.expanduser('.'), 'login.txt'),
         ]
 
     # Parse command line arguments
-    from optparse import OptionParser
+    from argparse import ArgumentParser
     usage = "%prog [-f credential_file]"
-    parser = OptionParser(usage=usage, version="%prog 1.0")
-    parser.add_option("-f", "--file", type='str', dest="file",
+    #parser = ArgumentParser(usage=usage)
+    parser = ArgumentParser()
+    parser.add_argument("-f", "--file", type=str, dest="file",
                         help="Use the specified file")
-    parser.add_option("-i", "--login", action='store_true', dest="login",
-                        help="Login <Default behaviour except that it randomizes crypt password, better if you want to hide password>")
-    parser.add_option("-o", "--logout", action='store_true', dest="logout",
+    parser.add_argument("-i", "--login", action='store_true', dest="login",
+                        help='Login <Default behaviour except that it '
+                            'randomizes crypt password, better if you want to '
+                            'hide password>')
+    parser.add_argument("-o", "--logout", action='store_true', dest="logout",
                         help="Logout")
-    (options, args) = parser.parse_args()
-    argc = len(args)
+    #parser.add_argument('otherthings', nargs='*')
+    #args = parser.parse_args()
+    args, otherthings = parser.parse_known_args()
+    argc = len(otherthings)
 
     username = ''
     password = ''
-    if options.file != None:
-        username, password = parse_file_for_credential(options.file)
-    elif options.logout:
+    if args.file != None:
+        username, password = parse_file_for_credential(args.file)
+    elif args.logout:
         try:
             logout_pucampus()
         except:
             raise
         return
     else:   #Only file option used in shopt right now, so 'else'
-        if not args:
+        if not otherthings:
             for default_file in default_credential_files:
                 if os.path.isfile(default_file):
                     username, password = parse_file_for_credential(default_file)
                     break
         elif argc == 1:
-            if os.path.isfile(args[0]):
-                username, password = parse_file_for_credential(args[0])
+            if os.path.isfile(otherthings[0]):
+                username, password = parse_file_for_credential(otherthings[0])
             else:
                 print_usage()
                 return
         elif argc == 2:
-            username = args[0]
-            password = args[1]
+            username = otherthings[0]
+            password = otherthings[1]
         else:
             print_usage()
             return
@@ -198,7 +203,7 @@ def main(argv):
         password = password[1:-1]
 
     # Show some details to user
-    if options.login:
+    if args.login:
         crypt_password = '*' * random.randint(len(password), 3*len(password))
     else:
         crypt_password = password[0]
@@ -228,4 +233,4 @@ if __name__ == '__main__':
     except:
         print('Unexpected Error:', sys.exc_info()[0])
         print('Details:', sys.exc_info()[1])
-#         raise
+        #raise
