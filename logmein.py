@@ -52,7 +52,7 @@ def login_pucampus(username, password):
         print('Reason: ', exep.reason)
     else:
         # everything is fine
-        the_page = response.read().decode('utf-8')
+        the_page = str(response.read()) # More pythonic than .decode('utf-8')
         # Parse for success or failure
         match = re.search('Authentication failed', the_page)
         if match:
@@ -83,7 +83,7 @@ def logout_pucampus():
         print('Reason: ', exep.reason)
     else:
         # everything is fine
-        the_page = response.read().decode('utf-8')
+        the_page = str(response.read()) # More pythonic than .decode('utf-8')
         # Parse for success or failure
         if re.search('Logout', the_page):
             print('Logout successful')
