@@ -16,9 +16,10 @@ Installation
 
 #### **Windows** user:
 * Install python3 if you don't have one from this [official python website][python3] or click here for [32 bit version][32python34] or [64 bit version][64python34]
+* Please select all components during installation of python.
 * Download this folder using the [Download as zip][zip] link on right side.
 * Copy and paste the file *logmein.py* to your Desktop or some other suitable place.
-* Create a file named **login.txt** or **.login.txt** (preferably in *C:\Users\yourHomeFolder* or in the same folder where you copied *logmein.py*)
+* Create a file named **login.txt** or **.login.txt** (preferably in *C:\Users\yourHomeFolder* or in the same folder where you copied *logmein.py*). Desktop is also a good alternative.
 * Open this credential file (login.txt) in any text editor and enter two lines: first your *username* and then your *password* in the next line. 
 * It is recommended that you hide this credential file.
 
@@ -31,6 +32,11 @@ Once you've carefully installed it as instructed above you may simply **double c
 #### Linux user
 All you need to do is type in `logmein` or `logmein -i` in your command line to login PUCampus.  
 Plus you also get some more additional functionality through command accessible via command line options listed below:  
+
+###### FAQ
+Q: I'm on windows and when I double click, it asks me to select an application to open this file.  
+A: You haven't enabled python setup to connect with .py filetype. Run the Python setup again and select all the option for installation  
+
 
 #### Command line options
 **Usage:** ```logmein [-i || -o || -f credential_file || username password] ```  
