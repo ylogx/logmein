@@ -25,8 +25,13 @@ fi
 #Copy file
 sudo cp -f  $filename $install_location
 if [ $? == 0 ]; then
-    echo 'Installation Successful.';
+    echo '      Installation Successful.';
 fi
+echo
+echo "For quicker access, paste the following lines at the end of ~/.bashrc file: "
+echo "alias li='logmein -i'"
+echo "alias lo='logmein -o'"
+echo
 
 #Setup Credential
 if [ -f "$HOME/.login.txt" ]; then
