@@ -32,8 +32,17 @@ else:
     import urllib2
     import urlparse
 
+class StatusCode:
+    UNKNOWN_ERROR       = -3
+    INPUT_ERROR         = -2
+    CONNECTION_ERROR    = -1
+    SUCCESS             = 0
+    LOGGED_IN           = 0
+    AUTH_ERROR          = 1
+    MULTIPLE_LOGIN      = 2
+
 def login_pucampus(username, password):
-    url = 'http://172.16.4.204/cgi-bin/login'
+    url = 'https://securelogin.arubanetworks.com/cgi-bin/login?cmd=login'
     values = {'user' : username,
               'password' : password }
     # Create request
@@ -47,9 +56,11 @@ def login_pucampus(username, password):
         print('The server couldn\'t fulfill the request.',
               'Error code: ', exep.code)
         print('You\'re probably logged in!')
+        return StatusCode.LOGGED_IN
     except urlerror.URLError as exep:
         print('We failed to reach a server.')
         print('Reason: ', exep.reason)
+        return StatusCode.CONNECTION_ERROR
     else:
         # everything is fine
         the_page = str(response.read()) # More pythonic than .decode('utf-8')
@@ -58,11 +69,14 @@ def login_pucampus(username, password):
         if match:
             print('Authentication failed.')
             print('Maybe your username or password is wrong.')
+            return StatusCode.AUTH_ERROR
         success = re.search('External Welcome Page', the_page)
         if success:
            print('Authentication Success. You\'re logged in')
+           return StatusCode.SUCCESS
         if re.search('Only one user login session is allowed', the_page):
             print('Only one user login session is allowed')
+            return StatusCode.MULTIPLE_LOGIN
 
 def logout_pucampus():
     print('Sending logout request')
@@ -74,7 +88,8 @@ def logout_pucampus():
     try:
 #         response = urllib2.urlopen(full_url)         #res.geturl(), .url=str, .status=200, .info=200, .msg=OK,
         response = urllib2.urlopen(
-            'http://172.16.4.201/cgi-bin/login?cmd=logout')
+                'https://securelogin.arubanetworks.com/cgi-bin/login?cmd=logout'
+                )
     except urlerror.HTTPError as exep:
         print('The server couldn\'t fulfill the request.',
               'Error code: ', exep.code)
@@ -87,10 +102,13 @@ def logout_pucampus():
         # Parse for success or failure
         if re.search('Logout', the_page):
             print('Logout successful')
+            return StatusCode.SUCCESS
         elif re.search('User not logged in', the_page):
             print('You\'re not logged in')
+            return StatusCode.SUCCESS
         else:
             print(the_page)
+            return StatusCode.UNKNOWN_ERROR
 
 def parse_file_for_credential(filename):
     try:
@@ -143,7 +161,7 @@ def main(argv):
 
     # Parse command line arguments
     from argparse import ArgumentParser
-    usage = "%prog [-f credential_file]"
+    #usage = "%prog [-f credential_file]"
     #parser = ArgumentParser(usage=usage)
     parser = ArgumentParser()
     parser.add_argument("-f", "--file", type=str, dest="file",
@@ -192,11 +210,11 @@ def main(argv):
     if not username:
         print('FATAL ERROR: No username specified')
         print('Check your login file or command syntax')
-        return
+        return StatusCode.INPUT_ERROR
     if not password:
         print('FATAL ERROR: No password specified')
         print('Check your login file or command syntax')
-        return
+        return StatusCode.INPUT_ERROR
     elif ((password[0] == "'" and password[-1] == "'")
           or (password[0] == '"' and password[-1] == '"')):
         print('Note: You don\'t need to put quotes in the credential text file')
@@ -213,16 +231,17 @@ def main(argv):
     print('Sending request to login with', username, '&', crypt_password)
 
     try:
-        login_pucampus(username, password)
+        return login_pucampus(username, password)
     except:
         raise
     return 0
 
 if __name__ == '__main__':
     try:
-        main(sys.argv)
+        return_code = main(sys.argv)
         if os.name == 'nt' or platform.system() == 'Windows':
             input('Press Enter or Close the window to exit !')
+        sys.exit(return_code)
     except KeyboardInterrupt:
         print('\nClosing garacefully :)', sys.exc_info()[1])
     except urlerror.HTTPError:
