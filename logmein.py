@@ -236,16 +236,21 @@ def main(argv):
         raise
     return 0
 
+def stop_for_windows():
+    if os.name == 'nt' or platform.system() == 'Windows':
+        input('Press Enter or Close the window to exit !')
+
 if __name__ == '__main__':
     try:
         return_code = main(sys.argv)
-        if os.name == 'nt' or platform.system() == 'Windows':
-            input('Press Enter or Close the window to exit !')
+        stop_for_windows()
         sys.exit(return_code)
     except KeyboardInterrupt:
         print('\nClosing garacefully :)', sys.exc_info()[1])
+        stop_for_windows()
     except urlerror.HTTPError:
         print('HTTP Error:', sys.exc_info()[1])
+        stop_for_windows()
     ### TODO: Handle other errors
     except SystemExit:
         pass
@@ -253,3 +258,4 @@ if __name__ == '__main__':
         print('Unexpected Error:', sys.exc_info()[0])
         print('Details:', sys.exc_info()[1])
         #raise
+        stop_for_windows()
