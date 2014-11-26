@@ -55,3 +55,7 @@ You may also use `logmein USERNAME PASSWORD` to login as some other user.
 [python3]: https://www.python.org/download/
 [32python34]: https://www.python.org/ftp/python/3.4.2/python-3.4.2.msi
 [64python34]: https://www.python.org/ftp/python/3.4.2/python-3.4.2.amd64.msi
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/shubhamchaudhary/logmein/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
