@@ -24,6 +24,7 @@ import platform
 import random
 import re
 import sys
+import time
 
 from argparse import ArgumentParser
 
@@ -176,12 +177,15 @@ def main():
     parser = ArgumentParser()
     parser.add_argument("-f", "--file", type=str, dest="file",
                         help="Use the specified file")
-    parser.add_argument("-i", "--login", action='store_true', dest="login",
-                        help='Login <Default behaviour except that it '
-                            'randomizes crypt password, better if you want to '
-                            'hide password>')
-    parser.add_argument("-o", "--logout", action='store_true', dest="logout",
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("-i", "--login", required=False, action='store_true', dest="login",
+                        help='Login')
+    group.add_argument("-o", "--logout", required=False, action='store_true', dest="logout",
                         help="Logout")
+    parser.add_argument("-t", "--timeout", required=False,
+                        type=int, dest="timeout",
+                        help="Loop and keep on sending requests at specified"
+                                " time interval (in seconds)")
     #parser.add_argument('otherthings', nargs='*')
     #args = parser.parse_args()
     args, otherthings = parser.parse_known_args()
@@ -230,21 +234,26 @@ def main():
         print('Note: You don\'t need to put quotes in the credential text file')
         password = password[1:-1]
 
-    # Show some details to user
-    if args.login:
-        crypt_password = '*' * random.randint(len(password), 3*len(password))
+    if args.timeout:
+        delay = args.timeout
+        while 1:
+            do_login(username, password)
+            print('Sleeping for', delay, 'seconds...')
+            time.sleep(delay)
+            print('--------------------------')
     else:
-        crypt_password = password[0]
-        for _ in range(1, len(password)-1):
-            crypt_password += '*'
-        crypt_password += password[-1]
+        do_login(username, password)
+    return 0
+
+def do_login(username, password):
+    # Show some details to user
+    crypt_password = '*' * random.randint(len(password), 3*len(password))
     print('Sending request to login with', username, '&', crypt_password)
 
     try:
         return login_pucampus(username, password)
     except:
         raise
-    return 0
 
 def stop_for_windows():
     ''' If on windows platform, stop and wait for input
