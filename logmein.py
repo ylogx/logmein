@@ -17,13 +17,15 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+
 import atexit
 import os
-import os.path
 import platform
 import random
 import re
 import sys
+
+from argparse import ArgumentParser
 
 if sys.version_info >= (3,):
     import urllib.request as urllib2
@@ -43,9 +45,10 @@ class StatusCode:
     MULTIPLE_LOGIN      = 2
 
 def login_pucampus(username, password):
+    ''' Perform login '''
     url = 'https://securelogin.arubanetworks.com/cgi-bin/login?cmd=login'
     values = {'user' : username,
-              'password' : password }
+              'password' : password}
     # Create request
     data = urlparse.urlencode(values)
     data = data.encode('utf-8')
@@ -73,13 +76,14 @@ def login_pucampus(username, password):
             return StatusCode.AUTH_ERROR
         success = re.search('External Welcome Page', the_page)
         if success:
-           print('Authentication Success. You\'re logged in')
-           return StatusCode.SUCCESS
+            print('Authentication Success. You\'re logged in')
+            return StatusCode.SUCCESS
         if re.search('Only one user login session is allowed', the_page):
             print('Only one user login session is allowed')
             return StatusCode.MULTIPLE_LOGIN
 
 def logout_pucampus():
+    ''' Perform logout '''
     print('Sending logout request')
 #     url = 'http://172.16.4.204/cgi-bin/login'
 #     data = urlparse.urlencode({'cmd' : 'logout' })
@@ -87,7 +91,8 @@ def logout_pucampus():
 #     req = urllib2.Request(full_url)         #req.full_url,
     # Send request
     try:
-#         response = urllib2.urlopen(full_url)         #res.geturl(), .url=str, .status=200, .info=200, .msg=OK,
+        #response = urllib2.urlopen(full_url)
+        #res.geturl(), .url=str, .status=200, .info=200, .msg=OK,
         response = urllib2.urlopen(
                 'https://securelogin.arubanetworks.com/cgi-bin/login?cmd=logout'
                 )
@@ -112,8 +117,10 @@ def logout_pucampus():
             return StatusCode.UNKNOWN_ERROR
 
 def parse_file_for_credential(filename):
+    ''' Parses the input file for login credentials
+    '''
     try:
-        f = open(filename, 'rU')
+        fhan = open(filename, 'rU')
     except FileNotFoundError:
         print('Create a file named login.txt or .login.txt in home folder')
         print('type your username and password in seperate lines.')
@@ -123,17 +130,19 @@ def parse_file_for_credential(filename):
         print('The_Password123')
         raise
     except KeyboardInterrupt:
-        f.close()
+        fhan.close()
         raise
-    username = f.readline().strip()
-    password = f.readline().strip()
-    f.close()
+    username = fhan.readline().strip()
+    password = fhan.readline().strip()
+    fhan.close()
     return (username, password)
 
 def print_usage():
+    ''' Simpler usage message '''
     print('Usage: ', sys.argv[0], ' [filename <Default: .login.txt>] || [password] || [username password]')
 
 def print_help():
+    ''' Print a better help message '''
     print('--------- PU@CAMPUS Auto Login Help ---------')
     print_usage()
     text = [
@@ -152,7 +161,8 @@ def print_help():
     for line in text:
         print(line)
 
-def main(argv):
+def main():
+    ''' Main function '''
     default_credential_files = [
         os.path.join(os.path.expanduser('~'), '.login.txt'),
         os.path.join(os.path.expanduser('~'), 'login.txt'),
@@ -161,7 +171,6 @@ def main(argv):
         ]
 
     # Parse command line arguments
-    from argparse import ArgumentParser
     #usage = "%prog [-f credential_file]"
     #parser = ArgumentParser(usage=usage)
     parser = ArgumentParser()
@@ -226,7 +235,7 @@ def main(argv):
         crypt_password = '*' * random.randint(len(password), 3*len(password))
     else:
         crypt_password = password[0]
-        for i in range(1, len(password)-1):
+        for _ in range(1, len(password)-1):
             crypt_password += '*'
         crypt_password += password[-1]
     print('Sending request to login with', username, '&', crypt_password)
@@ -244,16 +253,16 @@ def stop_for_windows():
         input('Press Enter or Close the window to exit !')
 
 if __name__ == '__main__':
-    #Run this function everytime on exit
+    # Run this function everytime on exit
     atexit.register(stop_for_windows)
     try:
-        return_code = main(sys.argv)
+        return_code = main()
         sys.exit(return_code)
     except KeyboardInterrupt:
         print('\nClosing garacefully :)', sys.exc_info()[1])
     except urlerror.HTTPError:
         print('HTTP Error:', sys.exc_info()[1])
-    ### TODO: Handle other errors
+    #TODO: Handle other errors
     except SystemExit:
         pass
     except:
