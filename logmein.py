@@ -17,6 +17,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import atexit
 import os
 import os.path
 import platform
@@ -237,20 +238,21 @@ def main(argv):
     return 0
 
 def stop_for_windows():
+    ''' If on windows platform, stop and wait for input
+    '''
     if os.name == 'nt' or platform.system() == 'Windows':
         input('Press Enter or Close the window to exit !')
 
 if __name__ == '__main__':
+    #Run this function everytime on exit
+    atexit.register(stop_for_windows)
     try:
         return_code = main(sys.argv)
-        stop_for_windows()
         sys.exit(return_code)
     except KeyboardInterrupt:
         print('\nClosing garacefully :)', sys.exc_info()[1])
-        stop_for_windows()
     except urlerror.HTTPError:
         print('HTTP Error:', sys.exc_info()[1])
-        stop_for_windows()
     ### TODO: Handle other errors
     except SystemExit:
         pass
@@ -258,4 +260,3 @@ if __name__ == '__main__':
         print('Unexpected Error:', sys.exc_info()[0])
         print('Details:', sys.exc_info()[1])
         #raise
-        stop_for_windows()
