@@ -2,14 +2,14 @@ from distutils.core import setup
 
 add_keywords = dict(
     entry_points = {
-        'console_scripts': ['logmein = logmein.logmein:main'],
+        'console_scripts': ['logmein = logmein.main:main'],
     },
 )
 
 setup(
         name='LogMeIn',
         description='Log in to networks',
-        version='0.0.1',
+        version='0.1.0',
         packages=['logmein'],
         license='GPLv3+',
         author='Shubham Chaudhary',
