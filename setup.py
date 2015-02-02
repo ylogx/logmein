@@ -9,7 +9,7 @@ add_keywords = dict(
 setup(
         name='LogMeIn',
         description='Log in to networks',
-        version='0.1.0',
+        version='0.1.1',
         packages=['logmein'],
         license='GPLv3+',
         author='Shubham Chaudhary',
