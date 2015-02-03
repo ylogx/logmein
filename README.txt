@@ -1,7 +1,7 @@
 logmein
 =======
 
-This software will help you automatically login to PU@CAMPUS wifi ![logo unavailable](http://physics.puchd.ac.in/events/exfor2011/includes/webimages/logo1-tr.png "PU @ Campus")  
+This software will help you automatically login to PU@CAMPUS wifi ![logo unavailable](http://upload.wikimedia.org/wikipedia/en/6/6f/Seal_Panjab_University.jpg "PU @ Campus")  
 
 Installation
 ------------
