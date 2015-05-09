@@ -16,7 +16,7 @@ fhan.close()
 setup(
         name='LogMeIn',
         description='Log in to networks',
-        version='0.1.1',
+        version='0.1.2',
         packages=['logmein'],
         license='GPLv3+',
         author='Shubham Chaudhary',
