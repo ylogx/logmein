@@ -18,4 +18,3 @@ def parse_file_for_credential(filename):
     password = fhan.readline().strip()
     fhan.close()
     return (username, password)
-

@@ -17,7 +17,6 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-
 import atexit
 import os
 import platform
@@ -27,7 +26,7 @@ import time
 
 from argparse import ArgumentParser
 
-if sys.version_info >= (3,):
+if sys.version_info >= (3, ):
     import urllib.error as urlerror
 else:
     import urlerror
@@ -36,6 +35,7 @@ from logmein.fileparser import parse_file_for_credential
 from logmein.network import login_pucampus
 from logmein.network import logout_pucampus
 from logmein.statuscode import StatusCode
+
 
 def print_usage():
     ''' Simpler usage message '''
@@ -57,15 +57,17 @@ def print_help():
         '       2. Save this and note down the proper path to this file (e.g D://Study/hidden/mystuff/magic.bat)',
         '       3. Click on properties in mozilla shortcut',
         '       4. Change the path from C://Program Files/Mozilla/firefox.exe to your batch file location',
-        ]
+    ]
     for line in text:
         print(line)
+
 
 def stop_for_windows():
     ''' If on windows platform, stop and wait for input
     '''
     if os.name == 'nt' or platform.system() == 'Windows':
         input('Press Enter or Close the window to exit !')
+
 
 def main():
     ''' Main function '''
@@ -77,23 +79,33 @@ def main():
         os.path.join(os.path.expanduser('~'), 'login.txt'),
         os.path.join(os.path.expanduser('.'), '.login.txt'),
         os.path.join(os.path.expanduser('.'), 'login.txt'),
-        ]
+    ]
 
     # Parse command line arguments
     #usage = "%prog [-f credential_file]"
     #parser = ArgumentParser(usage=usage)
     parser = ArgumentParser()
-    parser.add_argument("-f", "--file", type=str, dest="file",
+    parser.add_argument("-f", "--file",
+                        type=str,
+                        dest="file",
                         help="Use the specified file")
     group = parser.add_mutually_exclusive_group()
-    group.add_argument("-i", "--login", required=False, action='store_true', dest="login",
-                        help='Login')
-    group.add_argument("-o", "--logout", required=False, action='store_true', dest="logout",
-                        help="Logout")
-    parser.add_argument("-t", "--timeout", required=False,
-                        type=int, dest="timeout",
+    group.add_argument("-i", "--login",
+                       required=False,
+                       action='store_true',
+                       dest="login",
+                       help='Login')
+    group.add_argument("-o", "--logout",
+                       required=False,
+                       action='store_true',
+                       dest="logout",
+                       help="Logout")
+    parser.add_argument("-t", "--timeout",
+                        required=False,
+                        type=int,
+                        dest="timeout",
                         help="Loop and keep on sending requests at specified"
-                                " time interval (in seconds)")
+                        " time interval (in seconds)")
     #parser.add_argument('otherthings', nargs='*')
     #args = parser.parse_args()
     args, otherthings = parser.parse_known_args()
@@ -109,7 +121,7 @@ def main():
         except:
             raise
         return
-    else:   #Only file option used in shopt right now, so 'else'
+    else:  #Only file option used in shopt right now, so 'else'
         if not otherthings:
             for default_file in default_credential_files:
                 if os.path.isfile(default_file):
@@ -137,9 +149,10 @@ def main():
         print('FATAL ERROR: No password specified')
         print('Check your login file or command syntax')
         return StatusCode.INPUT_ERROR
-    elif ((password[0] == "'" and password[-1] == "'")
-          or (password[0] == '"' and password[-1] == '"')):
-        print('Note: You don\'t need to put quotes in the credential text file')
+    elif ((password[0] == "'" and password[-1] == "'") or
+          (password[0] == '"' and password[-1] == '"')):
+        print(
+            'Note: You don\'t need to put quotes in the credential text file')
         password = password[1:-1]
 
     if args.timeout:
@@ -153,15 +166,17 @@ def main():
         do_login(username, password)
     return 0
 
+
 def do_login(username, password):
     # Show some details to user
-    crypt_password = '*' * random.randint(len(password), 3*len(password))
+    crypt_password = '*' * random.randint(len(password), 3 * len(password))
     print('Sending request to login with', username, '&', crypt_password)
 
     try:
         return login_pucampus(username, password)
     except:
         raise
+
 
 if __name__ == '__main__':
     try:

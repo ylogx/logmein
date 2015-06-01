@@ -17,51 +17,67 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import sys,urllib;
-import os,platform,os.path
+import sys, urllib
+import os, platform, os.path
 import urllib.error
 
-if sys.version_info >= (3,):
+if sys.version_info >= (3, ):
     import urllib.request as urllib2
     import urllib.parse as urlparse
 else:
     import urllib2
     import urlparse
 
+
 def main(argv):
-    default_credential_files = [ os.path.join(os.path.expanduser('~'),'.login.txt'),
-                                os.path.join(os.path.expanduser('~'),'login.txt'),
-                                os.path.join(os.path.expanduser('.'),'.login.txt'),
-                                os.path.join(os.path.expanduser('.'),'login.txt') ]
+    default_credential_files = [
+        os.path.join(os.path.expanduser('~'), '.login.txt'),
+        os.path.join(os.path.expanduser('~'), 'login.txt'),
+        os.path.join(os.path.expanduser('.'), '.login.txt'),
+        os.path.join(os.path.expanduser('.'), 'login.txt')
+    ]
 
     # Parse command line arguments
     from optparse import OptionParser
-    usage = "%prog [-f credential_file]";
+    usage = "%prog [-f credential_file]"
     parser = OptionParser(usage=usage, version="%prog 1.0")
-    parser.add_option("-f", "--file", type='str', dest="file", help="Use the specified file")
-    parser.add_option("-i", "--login", action='store_true', dest="login", help="Login <Default behaviour except that it randomizes crypt password, better if you want to hide password>")
-    parser.add_option("-o", "--logout", action='store_true', dest="logout", help="Logout")
+    parser.add_option("-f", "--file",
+                      type='str',
+                      dest="file",
+                      help="Use the specified file")
+    parser.add_option(
+        "-i", "--login",
+        action='store_true',
+        dest="login",
+        help=
+        "Login <Default behaviour except that it randomizes crypt password, better if you want to hide password>")
+    parser.add_option("-o", "--logout",
+                      action='store_true',
+                      dest="logout",
+                      help="Logout")
     (options, args) = parser.parse_args()
-    argc = len(args);
+    argc = len(args)
 
     try:
-        update_logme();
+        update_logme()
     except:
-        raise;
+        raise
     return 0
+
 
 if __name__ == '__main__':
     try:
-        main(sys.argv);
+        main(sys.argv)
         if os.name == 'nt' or platform.system() == 'Windows':
-            input('Press Enter or Close the window to exit !');
+            input('Press Enter or Close the window to exit !')
     except KeyboardInterrupt:
-        print('\nClosing garacefully :)',sys.exc_info()[1]);
+        print('\nClosing garacefully :)', sys.exc_info()[1])
     except urllib.error.HTTPError:
-        print('HTTP Error:',sys.exc_info()[1]);
+        print('HTTP Error:', sys.exc_info()[1])
     ### TODO: Handle other errors
     except SystemExit:
-        pass;
+        pass
     except:
-        print('Unexpected Error:',sys.exc_info()[0],'\nDetails:',sys.exc_info()[1]);
+        print('Unexpected Error:', sys.exc_info()[0], '\nDetails:',
+              sys.exc_info()[1])
 #         raise;
