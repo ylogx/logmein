@@ -27,9 +27,9 @@ import time
 from argparse import ArgumentParser
 
 if sys.version_info >= (3, ):
-    import urllib.error as urlerror
+    from urllib.error import HTTPError
 else:
-    import urlerror
+    from urllib2 import HTTPError
 
 from logmein.fileparser import parse_file_for_credential
 from logmein.network import login_pucampus
@@ -184,7 +184,7 @@ if __name__ == '__main__':
         sys.exit(return_code)
     except KeyboardInterrupt:
         print('\nClosing garacefully :)', sys.exc_info()[1])
-    except urlerror.HTTPError:
+    except HTTPError:
         print('HTTP Error:', sys.exc_info()[1])
     #TODO: Handle other errors
     except SystemExit:

@@ -5,11 +5,14 @@ from logmein.statuscode import StatusCode
 
 if sys.version_info >= (3, ):
     import urllib.request as urllib2
-    import urllib.parse as urlparse
     import urllib.error as urlerror
+    from urllib.error import HTTPError, URLError
+    from urllib.parse import urlencode
 else:
     import urllib2
     import urlparse
+    from urllib2 import HTTPError, URLError
+    from urllib import urlencode
 
 
 def login_pucampus(username, password):
@@ -17,19 +20,19 @@ def login_pucampus(username, password):
     url = 'https://securelogin.arubanetworks.com/cgi-bin/login?cmd=login'
     values = {'user': username, 'password': password}
     # Create request
-    data = urlparse.urlencode(values)
+    data = urlencode(values)
     data = data.encode('utf-8')
     req = urllib2.Request(url, data)
     # Send request
     try:
         response = urllib2.urlopen(
             req)  #res.geturl(), .url=str, .status=200, .info=200, .msg=OK,
-    except urlerror.HTTPError as exep:
+    except HTTPError as exep:
         print('The server couldn\'t fulfill the request.', 'Error code: ',
               exep.code)
         print('You\'re probably logged in!')
         return StatusCode.LOGGED_IN
-    except urlerror.URLError as exep:
+    except URLError as exep:
         print('We failed to reach a server.')
         print('Reason: ', exep.reason)
         return StatusCode.CONNECTION_ERROR
@@ -64,10 +67,10 @@ def logout_pucampus():
         #res.geturl(), .url=str, .status=200, .info=200, .msg=OK,
         response = urllib2.urlopen(
             'https://securelogin.arubanetworks.com/cgi-bin/login?cmd=logout')
-    except urlerror.HTTPError as exep:
+    except HTTPError as exep:
         print('The server couldn\'t fulfill the request.', 'Error code: ',
               exep.code)
-    except urlerror.URLError as exep:
+    except URLError as exep:
         print('We failed to reach a server.')
         print('Reason: ', exep.reason)
     else:
