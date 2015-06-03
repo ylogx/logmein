@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 def parse_file_for_credential(filename):
     ''' Parses the input file for login credentials
     '''
