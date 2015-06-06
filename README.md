@@ -22,7 +22,7 @@ password
 * Please select all components during installation of python.
 * Download this folder using the [Download as zip][zip] link on right side.
 * Copy and paste the file *logmein.py* to your Desktop or some other suitable place.
-* Create a file named **login.txt** or **.login.txt** (preferably in *C:\Users\yourHomeFolder* or in the same folder where you copied *logmein.py*). Desktop is also a good alternative.
+* Create a file named **login.txt** or **.login.txt** (preferably in *C:\\Users\\yourHomeFolder* or in the same folder where you copied *logmein.py*). Desktop is also a good alternative.
 * Open this credential file (login.txt) in any text editor and enter two lines: first your *username* and then your *password* in the next line. 
 * It is recommended that you hide this credential file.
 
