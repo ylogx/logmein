@@ -7,12 +7,15 @@ Installation
 ------------
 
 #### **Linux** user: 
-* Download this folder using the [Download as zip][zip] link on right side.
-* Unzip the folder by double clicking (or command `unzip logmein-master.zip`).
-* Run the install file by typing `./install` in the command line
-* Enter your system sudo password when prompted
-* Next you'll be asked to setup a credential file, press y
-* Enter your username and password. These will be stored in a hidden file `~/.login.txt`.
+1. `pip install logmein` or `easy_install logmein`: Install logmein from pip using 
+
+1. `xdg-open ~/.login.txt`: Next you need to create a credential file `~/.login.txt` if you don't want to enter username/password everytime.
+1. Enter your username and password in two separate lines e.g:
+
+```
+11uit424
+password
+```
 
 #### **Windows** user:
 * Install python3 if you don't have one from this [official python website][python3] or click here for [32 bit version][32python34] or [64 bit version][64python34]
