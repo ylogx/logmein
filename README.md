@@ -1,4 +1,4 @@
-logmein [![Stories in Ready](https://badge.waffle.io/shubhamchaudhary/logmein.png?label=ready&title=Ready)](https://waffle.io/shubhamchaudhary/logmein)
+LogMeIn [![Stories in Ready](https://badge.waffle.io/shubhamchaudhary/logmein.png?label=ready&title=Ready)](https://waffle.io/shubhamchaudhary/logmein)
 =======
 
 This software will help you automatically login to PU@CAMPUS wifi ![logo unavailable](http://upload.wikimedia.org/wikipedia/en/6/6f/Seal_Panjab_University.jpg "PU @ Campus")  
@@ -42,14 +42,15 @@ A: You haven't enabled python setup to connect with .py filetype. Run the Python
 
 
 #### Command line options
-**Usage:** ```logmein [-i || -o || -f credential_file || username password] ```  
+**Usage:** ```logmein [-i | -o] [-f credential_file | username password] [-t TIMEOUT]```  
 
-| **Help option** | **Alternative** | **Usage**                                 |
-| -------------   |:-------------:  | -----:                                    |
-| -h              | --help          | Show this help message and exit           |
-| -i              | --login         | Login                                     |
-| -o              | --logout        | Logout                                    |
-| -f FILE         | --file=FILE     | Use the specified file as credential file |
+| **Help option** | **Alternative**  | **Usage**                                 |
+| -------------   |:-------------:   | -----:                                    |
+| -h              | --help           | Show this help message and exit           |
+| -i              | --login          | Login                                     |
+| -o              | --logout         | Logout                                    |
+| -f FILE         | --file=FILE      | Use the specified file as credential file |
+| -t TIMEOUT      | --timeout TIMEOUT| Loop and keep on sending requests at specified time interval (in seconds) |
 
 You may also use `logmein USERNAME PASSWORD` to login as some other user.  
 
