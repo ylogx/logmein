@@ -34,10 +34,12 @@ Once you've carefully installed it as instructed above you may simply **double c
 
 #### Linux user
 All you need to do is type in `logmein` or `logmein -i` in your command line to login PUCampus.  
+
 Plus you also get some more additional functionality through command accessible via command line options listed below:  
 
 ###### FAQ
 Q: I'm on windows and when I double click, it asks me to select an application to open this file.  
+
 A: You haven't enabled python setup to connect with .py filetype. Run the Python setup again and select all the option for installation  
 
 
