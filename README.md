@@ -34,7 +34,7 @@ Usage
 -----
 
 #### Windows user
-Once you've carefully installed it as instructed above you may simply **double click** the *logmein.py* file to login.  
+Once you've carefully installed it as instructed above you may simply **double click** the *run.py* file to login.  
 
 #### Linux user
 All you need to do is type in `logmein` or `logmein -i` in your command line to login PUCampus.  
