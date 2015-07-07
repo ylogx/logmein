@@ -20,9 +20,13 @@ password
 #### **Windows** user:
 * Install python3 if you don't have one from this [official python website][python3] or click here for [32 bit version][32python34] or [64 bit version][64python34]
 * Please select all components during installation of python.
-* Download this folder using the [Download as zip][zip] link on right side.
-* Copy and paste the file *logmein.py* to your Desktop or some other suitable place.
-* Create a file named **login.txt** or **.login.txt** (preferably in *C:\\Users\\yourHomeFolder* or in the same folder where you copied *logmein.py*). Desktop is also a good alternative.
+* Installing by downloading the zip:
+    * Download this folder using the [Download as zip][zip] link on right side.
+    * Copy and paste the file *run.py* and the folder *logmein* to your Desktop or some other suitable place.
+* Installing using pip or easy_install:
+    * If you can run python in command line, you should be able to install logmein by `pip install logmein` or `easy_install logmein`
+    * Copy and paster the file *run.py* to your Desktop or some other suitable place.
+* Create a file named **login.txt** or **.login.txt** (preferably in *C:\\Users\\yourHomeFolder* or in the same folder where you copied *run.py*). Desktop is also a good alternative.
 * Open this credential file (login.txt) in any text editor and enter two lines: first your *username* and then your *password* in the next line. 
 * It is recommended that you hide this credential file.
 
