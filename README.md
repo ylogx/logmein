@@ -1,4 +1,4 @@
-LogMeIn [![Stories in Ready](https://badge.waffle.io/shubhamchaudhary/logmein.png?label=ready&title=Ready)](https://waffle.io/shubhamchaudhary/logmein)
+LogMeIn [![Stories in Ready](https://badge.waffle.io/shubhamchaudhary/logmein.png?label=ready&title=Ready)](https://waffle.io/shubhamchaudhary/logmein) [![Circle CI](https://circleci.com/gh/shubhamchaudhary/logmein.svg?style=svg)](https://circleci.com/gh/shubhamchaudhary/logmein) 
 =======
 
 This software will help you automatically login to PU@CAMPUS wifi ![logo unavailable](http://upload.wikimedia.org/wikipedia/en/6/6f/Seal_Panjab_University.jpg "PU @ Campus")  
