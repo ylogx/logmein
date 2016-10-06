@@ -18,7 +18,7 @@ else:
 
 def login_pucampus(username, password):
     ''' Perform login '''
-    url = 'https://securelogin.arubanetworks.com/cgi-bin/login?cmd=login'
+    url = 'https://securelogin.pu.ac.in/cgi-bin/login?cmd=login'
     values = {'user': username, 'password': password}
     # Create request
     data = urlencode(values)
@@ -67,7 +67,7 @@ def logout_pucampus():
         #response = urllib2.urlopen(full_url)
         #res.geturl(), .url=str, .status=200, .info=200, .msg=OK,
         response = urllib2.urlopen(
-            'https://securelogin.arubanetworks.com/cgi-bin/login?cmd=logout')
+            'https://securelogin.pu.ac.in/cgi-bin/login?cmd=logout')
     except HTTPError as exep:
         print('The server couldn\'t fulfill the request.', 'Error code: ',
               exep.code)
