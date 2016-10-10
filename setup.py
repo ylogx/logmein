@@ -19,7 +19,7 @@ except (IOError, ImportError):
 setup(
     name='LogMeIn',
     description='Log in to networks',
-    version='0.1.2',
+    version='0.1.3',
     packages=['logmein'],
     license='GPLv3+',
     author='Shubham Chaudhary',
