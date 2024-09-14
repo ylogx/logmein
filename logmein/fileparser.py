@@ -4,7 +4,7 @@ def parse_file_for_credential(filename):
     ''' Parses the input file for login credentials
     '''
     try:
-        fhan = open(filename, 'rU')
+        fhan = open(filename, 'r')
     except FileNotFoundError:
         print('Create a file named login.txt or .login.txt in home folder')
         print('type your username and password in seperate lines.')
